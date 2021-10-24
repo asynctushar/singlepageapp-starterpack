@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 
 
@@ -12,7 +13,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/index.html'
-        })
+        }),
+        new CleanWebpackPlugin()
     ],
     module: {
         rules: [
@@ -26,17 +28,22 @@ module.exports = {
             {
                 test: /\.css$/,
                 exclude: /node_modules/,
-                use: ['style-loader', 'babel-loader']
+                use: ['style-loader', 'css-loader']
             },
             {
-                test: /\.(gif|png|jpe?g|svg)$/i,
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'file-loader',
-                    options: {
-                        name: '[path][name]. [ext]',
-                        outputPath: 'images'
-                    }
+                type: 'asset/resource',
+                generator: {
+                    filename: 'assets/images/[name].[ext]'
+                }
+            },
+            {
+                test: /\.html$/,
+                exclude: /node_modules/,
+                use: 'html-loader',
+                generator: {
+                    filename: 'assets/images/[name].[ext]'
                 }
             }
         ]
