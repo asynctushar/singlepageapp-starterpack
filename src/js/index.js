@@ -1,1 +1,1 @@
-import '../css/index.css'
+import '../styleshits/css/index.css';
